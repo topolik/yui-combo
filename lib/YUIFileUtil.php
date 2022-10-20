@@ -36,9 +36,9 @@ class YUIFileUtil {
 	    //Rebuild path
 	    $path = $dir.DS.$folder;
 
-	    //If this path is higher than the parent folder
-	    if( strcasecmp($path, realpath($parent_folder)) > 0 ) {
-	        return $path;
+	    //If this path contains parent folder
+	    if(strpos(realpath($path), realpath($parent_folder)) === 0) {
+	        return TRUE;
 	    }
 
 	    return FALSE;
