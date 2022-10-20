@@ -7,6 +7,17 @@ class YUIFileUtil {
 	}
 
 	public static function isSubDir($path = NULL, $parent_folder) {
+	    // If the configuration is wrong then we cannot serve any file
+	    if (!is_dir($parent_folder)) {
+	        error_log("Fatal: Incorrect configuration of YUI_BUILD_PATH, dir doesn't exist: ".$parent_folder);
+	        return FALSE;
+	    }
+
+	    // No loading of php scripts from the app directory
+	    if (strpos(COMBO_FILE_PATH, realpath(dirname($path))) > -1) {
+	        return FALSE;
+	    }
+
 	    //Get directory path minus last folder
 	    $dir = dirname($path);
 	    $folder = substr($path, strlen($dir));
@@ -30,7 +41,7 @@ class YUIFileUtil {
 	        return $path;
 	    }
 
-	    return false;
+	    return FALSE;
 	}
 
 	function writeCache($id, $content) {
